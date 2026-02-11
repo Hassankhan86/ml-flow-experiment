@@ -21,6 +21,9 @@ import logging
 logging.basicConfig(level=logging.WARN)
 logger = logging.getLogger(__name__)
 
+import dagshub
+dagshub.init(repo_owner='Hassankhan86', repo_name='ml-flow-experiment', mlflow=True)
+
 
 def eval_metrics(actual, pred):
     rmse = np.sqrt(mean_squared_error(actual, pred))
@@ -79,7 +82,6 @@ if __name__ == "__main__":
         signature = infer_signature(train_x, predictions)
 
         ## For Remote server only(DAGShub)
-
         # remote_server_uri=""
         # mlflow.set_tracking_uri(remote_server_uri)
 
@@ -102,7 +104,6 @@ if __name__ == "__main__":
                 signature=signature,
                 input_example=train_x[:5]
             )
-
         else:
             # mlflow.sklearn.log_model(lr, "model")
             mlflow.sklearn.log_model(
